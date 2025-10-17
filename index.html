@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eatlytic - Your Intelligent Food Companion</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+
+    <style>
+        /* CSS styles go here */
+        /* CSS styles go here */
+        :root {
+            --primary-text-color: #2e3a47;
+            /* Dark charcoal */
+            --secondary-text-color: #5a6470;
+            /* Muted grey */
+            --background-light: #f8fcfb;
+            /* Off-white, subtle green tint */
+            --background-dark: #202b35;
+            /* Even darker blue-grey for panels */
+            --accent-color: #66bb6a;
+            /* Vibrant green, more natural food theme */
+            --accent-light: #81c784;
+            --accent-dark: #388e3c;
+            --button-bg-color: var(--accent-color);
+            --button-hover-color: var(--accent-light);
+            --camera-button-bg: #4CAF50;
+            /* Original green for consistency */
+            --camera-button-hover: #45a049;
+            --stop-button-bg: #f44336;
+            --stop-button-hover: #da190b;
+
+            /* New: Shadow and border variables */
+            --shadow-light: 0 4px 15px rgba(0, 0, 0, 0.08);
+            --shadow-medium: 0 8px 30px rgba(0, 0, 0, 0.12);
+            --border-light: 1px solid #e0e0e0;
+            --border-medium: 1px solid #cce0e8;
+
+            /* Animation properties */
+            --transition-speed: 0.3s ease-out;
+            --fast-transition: 0.15s ease-in-out;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: var(--background-light);
+            color: var(--primary-text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+            /* Prevent horizontal scroll from animations */
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+            max-width: 1400px;
+            min-height: 90vh;
+            box-shadow: var(--shadow-medium);
+            background-color: #fff;
+            border-radius: 16px;
+            /* Slightly more rounded */
+            overflow: hidden;
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        .left-panel {
+            flex: 1;
+            background-color: var(--background-dark);
+            display: flex;
+            align-items: flex-end;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            /* Subtle separator */
+        }
+
+        .kitchen-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://image.pollinations.ai/prompt/modern%20dark%20kitchen%20with%20fresh%20fruit%20and%20vegetables%20on%20counter%2C%20photorealistic?width=800&height=1200');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.7;
+            /* Slightly dim the background */
+            filter: brightness(0.7);
+            /* Darken it further */
+            transform: scale(1.05);
+            /* Slight zoom for depth */
+        }
+
+        .eatlytic-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.8em;
+            /* Slightly larger */
+            color: white;
+            position: absolute;
+            bottom: 40px;
+            /* Adjusted slightly */
+            left: 40px;
+            z-index: 2;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+            /* Stronger shadow */
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideInUp 0.6s ease-out 0.5s forwards;
+            /* Delayed animation */
+        }
+
+        .right-panel {
+            flex: 1.2;
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background-color: var(--background-light);
+        }
+
+        .app-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.8em;
+            color: var(--primary-text-color);
+            margin-bottom: 10px;
+            line-height: 1.1;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideInUp 0.6s ease-out 0.2s forwards;
+        }
+
+        .app-tagline {
+            font-size: 1.3em;
+            color: var(--secondary-text-color);
+            margin-bottom: 40px;
+            max-width: 500px;
+            line-height: 1.5;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideInUp 0.6s ease-out 0.3s forwards;
+        }
+
+        .upload-section {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            /* Consistent rounding */
+            box-shadow: var(--shadow-light);
+            margin-top: 30px;
+            border: var(--border-light);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideInUp 0.6s ease-out 0.4s forwards;
+        }
+
+        .upload-section h2 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.8em;
+            color: var(--primary-text-color);
+            margin-bottom: 25px;
+            border-bottom: 2px solid var(--accent-color);
+            /* Emphasize heading */
+            padding-bottom: 10px;
+            display: inline-block;
+            /* Make border only as wide as text */
+            animation: popIn 0.4s ease-out 0.8s forwards;
+            /* Delayed pop */
+        }
+
+        /* Input and Button Styling */
+        .input-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+
+        input[type="file"] {
+            flex: 1 1 200px;
+            padding: 12px 18px;
+            /* More padding */
+            border: var(--border-light);
+            border-radius: 8px;
+            font-size: 1em;
+            background-color: #fcfcfc;
+            color: var(--primary-text-color);
+            box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.05);
+            transition: border-color var(--fast-transition), box-shadow var(--fast-transition);
+            cursor: pointer;
+            /* Indicate it's clickable */
+        }
+
+        input[type="file"]::file-selector-button {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color var(--fast-transition);
+            margin-right: 10px;
+        }
+
+        input[type="file"]::file-selector-button:hover {
+            background-color: var(--accent-dark);
+        }
+
+        input[type="file"]:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(102, 187, 106, 0.2);
+            /* Soft focus ring */
+        }
+
+
+        button {
+            background-color: var(--button-bg-color);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.05em;
+            cursor: pointer;
+            transition: background-color var(--transition-speed), transform 0.2s ease, box-shadow var(--transition-speed);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        button:hover {
+            background-color: var(--button-hover-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        button:active {
+            transform: translateY(0);
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        #cameraButton {
+            background-color: var(--camera-button-bg);
+        }
+
+        #cameraButton:hover {
+            background-color: var(--camera-button-hover);
+        }
+
+        #captureButton {
+            background-color: var(--camera-button-bg);
+        }
+
+        #captureButton:hover {
+            background-color: var(--camera-button-hover);
+        }
+
+        #stopCameraButton {
+            background-color: var(--stop-button-bg);
+        }
+
+        #stopCameraButton:hover {
+            background-color: var(--stop-button-hover);
+        }
+
+        #languageSelect {
+            padding: 12px 18px;
+            /* Consistent with input */
+            border: var(--border-light);
+            border-radius: 8px;
+            font-size: 1em;
+            background-color: #fcfcfc;
+            color: var(--primary-text-color);
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+            appearance: none;
+            /* Remove default select styling */
+            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%235a6470%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-6.5%200-12.3%203.2-16.1%208.1-3.9%204.9-3.9%2011.6%200%2016.5l128.8%20141.6c4.3%204.8%2010.5%207.2%2016.7%207.2s12.4-2.4%2016.7-7.2l128.8-141.6c3.8-4.9%203.8-11.6%200-16.5z%22%2F%3E%3C%2Fsvg%3E');
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            /* Adjust arrow position */
+            background-size: 10px;
+            /* Adjust arrow size */
+            padding-right: 40px;
+            /* Make more space for the arrow */
+            cursor: pointer;
+            transition: border-color var(--fast-transition), box-shadow var(--fast-transition);
+        }
+
+        #languageSelect:hover {
+            border-color: #ccc;
+        }
+
+        #languageSelect:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(102, 187, 106, 0.2);
+        }
+
+
+        #loadingIndicator {
+            margin-top: 20px;
+            font-style: italic;
+            color: var(--secondary-text-color);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            opacity: 0;
+            /* Hidden by default, animated when shown */
+            animation: pulse 1.5s infinite ease-in-out;
+        }
+
+        #loadingIndicator.show {
+            opacity: 1;
+            transition: opacity var(--fast-transition);
+        }
+
+        #loadingIndicator::before {
+            content: '';
+            width: 16px;
+            height: 16px;
+            border: 3px solid var(--accent-color);
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+
+        .results-box {
+            margin-top: 30px;
+            padding: 25px;
+            background-color: #f0f8f4;
+            /* Softer background for results */
+            border-radius: 12px;
+            min-height: 180px;
+            border: var(--border-medium);
+            font-size: 0.95em;
+            color: var(--primary-text-color);
+            line-height: 1.7;
+            box-shadow: inset 0 1px 6px rgba(0, 0, 0, 0.04);
+            max-height: 400px;
+            overflow-y: auto;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideInUp 0.6s ease-out 0.6s forwards;
+            /* Delayed animation */
+            transition: opacity var(--transition-speed), transform var(--transition-speed);
+        }
+
+        /* Make results visible when content is added */
+        .results-box:not(:empty) {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .results-box h2,
+        .results-box h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--primary-text-color);
+            margin-top: 15px;
+            margin-bottom: 10px;
+        }
+
+        .results-box h2 {
+            font-size: 1.6em;
+            border-bottom: 2px solid var(--accent-light);
+            /* Softer accent line */
+            padding-bottom: 5px;
+        }
+
+        .results-box h3 {
+            font-size: 1.3em;
+            color: #4a5a6a;
+        }
+
+        .results-box ul {
+            list-style-type: disc;
+            margin-left: 20px;
+            padding-left: 0;
+        }
+
+        .results-box li {
+            margin-bottom: 8px;
+        }
+
+
+        #imagePreview {
+            max-width: 100%;
+            max-height: 250px;
+            object-fit: contain;
+            margin-top: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            display: none;
+            border: var(--border-light);
+            box-shadow: var(--shadow-light);
+            transition: all var(--transition-speed);
+        }
+
+        #videoFeed {
+            width: 100%;
+            max-width: 400px;
+            display: none;
+            margin-top: 15px;
+            border-radius: 8px;
+            border: var(--border-light);
+            box-shadow: var(--shadow-light);
+            transition: all var(--transition-speed);
+        }
+
+        #cameraControls {
+            margin-top: 10px;
+            margin-bottom: 20px;
+            display: none;
+            /* Controlled by JS */
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        /* --- Keyframe Animations --- */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.98);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes popIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.03);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 900px) {
+            .container {
+                flex-direction: column;
+                min-height: unset;
+                margin: 20px;
+                width: auto;
+                border-radius: 12px;
+            }
+
+            .left-panel {
+                min-height: 180px;
+                /* Slightly smaller on mobile */
+                padding: 25px;
+                border-radius: 12px 12px 0 0;
+                border-right: none;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .eatlytic-logo {
+                font-size: 2.5em;
+                bottom: 25px;
+                left: 25px;
+            }
+
+            .right-panel {
+                padding: 25px;
+                border-radius: 0 0 12px 12px;
+            }
+
+            .app-title {
+                font-size: 2.2em;
+                margin-bottom: 12px;
+            }
+
+            .app-tagline {
+                font-size: 1.05em;
+                margin-bottom: 25px;
+            }
+
+            .upload-section {
+                padding: 18px;
+            }
+
+            .upload-section h2 {
+                font-size: 1.4em;
+                margin-bottom: 12px;
+            }
+
+            .input-group {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            input[type="file"],
+            button,
+            #languageSelect {
+                width: 100%;
+                padding: 10px 15px;
+            }
+
+            #languageSelect {
+                padding-right: 35px;
+                /* Adjust for smaller arrow */
+                background-position: right 12px center;
+                background-size: 9px;
+            }
+
+            #cameraControls {
+                justify-content: center;
+            }
+
+            #loadingIndicator {
+                margin-top: 15px;
+            }
+
+            #loadingIndicator::before {
+                width: 14px;
+                height: 14px;
+            }
+
+            .results-box {
+                margin-top: 25px;
+                padding: 20px;
+            }
+
+            .results-box h2 {
+                font-size: 1.4em;
+            }
+
+            .results-box h3 {
+                font-size: 1.15em;
+            }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 900px) {
+            .container {
+                flex-direction: column;
+                min-height: unset;
+                /* Allow container to size based on content */
+                margin: 20px;
+                width: auto;
+            }
+
+            .left-panel {
+                min-height: 200px;
+                padding: 30px;
+                border-radius: 12px 12px 0 0;
+            }
+
+            .eatlytic-logo {
+                font-size: 2.8em;
+                bottom: 30px;
+                left: 30px;
+            }
+
+            .right-panel {
+                padding: 30px;
+                border-radius: 0 0 12px 12px;
+            }
+
+            .app-title {
+                font-size: 2.5em;
+                margin-bottom: 15px;
+            }
+
+            .app-tagline {
+                font-size: 1.1em;
+                margin-bottom: 30px;
+            }
+
+            .upload-section {
+                padding: 20px;
+            }
+
+            .upload-section h2 {
+                font-size: 1.5em;
+                margin-bottom: 15px;
+            }
+
+            .input-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            input[type="file"],
+            button,
+            #languageSelect {
+                width: 100%;
+            }
+
+            #cameraControls {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="left-panel">
+            <div class="kitchen-image"></div>
+            <div class="eatlytic-logo">Eatlytic</div>
+        </div>
+        <div class="right-panel">
+            <h1 class="app-title">Eatlytic</h1>
+            <p class="app-tagline">Your intelligent food companion for understanding your body's response to food.</p>
+
+            <section class="upload-section">
+                <h2>Analyze Your Food</h2>
+
+                <div class="input-group">
+                    <input type="file" id="foodImageUpload" accept="image/*">
+                    <button id="cameraButton"><i class="fas fa-camera"></i> Use Camera</button>
+                    <select id="languageSelect">
+                        <option value="en">English</option>
+                        <option value="es">Español</option>
+                        <option value="fr">Français</option>
+                        <option value="de">Deutsch</option>
+                        <option value="it">Italiano</option>
+                        <option value="pt">Português</option>
+                        <option value="zh">中文</option>
+                        <option value="ja">日本語</option>
+                        <option value="ko">한국어</option>
+                        <option value="hi">हिंदी</option>
+                    </select>
+                </div>
+
+                <video id="videoFeed" autoplay playsinline></video>
+                <div id="cameraControls">
+                    <button id="captureButton"><i class="fas fa-circle-dot"></i> Capture Photo</button>
+                    <button id="stopCameraButton"><i class="fas fa-video-slash"></i> Stop Camera</button>
+                </div>
+                <canvas id="cameraCanvas" style="display:none;"></canvas>
+                <!-- Hidden canvas for capturing -->
+
+                <img id="imagePreview" src="#" alt="Image Preview">
+                <button id="analyzeButton"><i class="fas fa-flask"></i> Analyze Food</button>
+                <div id="loadingIndicator" style="display: none;">Analyzing...</div>
+                <div id="results" class="results-box">
+                    <p>Upload an image or use your camera to get a detailed food analysis!</p>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const foodImageUpload = document.getElementById('foodImageUpload');
+            const imagePreview = document.getElementById('imagePreview');
+            const analyzeButton = document.getElementById('analyzeButton');
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            const resultsDiv = document.getElementById('results');
+            const languageSelect = document.getElementById('languageSelect');
+
+            // Camera elements
+            const cameraButton = document.getElementById('cameraButton');
+            const videoFeed = document.getElementById('videoFeed');
+            const cameraControls = document.getElementById('cameraControls');
+            const captureButton = document.getElementById('captureButton');
+            const stopCameraButton = document.getElementById('stopCameraButton');
+            const cameraCanvas = document.getElementById('cameraCanvas');
+            let currentStream; // To hold the camera stream
+
+            // !!! WARNING: NEVER DEPLOY THIS CODE WITH THE API KEY EXPOSED !!!
+            // This API key is directly visible in the browser's source code.
+            // For production, all API calls must go through a secure backend server.
+            // const OPENROUTER_API_KEY = "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";
+            // const OPENROUTER_SITE_URL = "http://localhost:8000"; // Use your actual site URL if deployed securely
+            // const OPENROUTER_SITE_NAME = "Eatlytic Local Test";
+
+            // Function to stop camera stream
+            function stopCamera() {
+                if (currentStream) {
+                    currentStream.getTracks().forEach(track => track.stop());
+                    videoFeed.style.display = 'none';
+                    cameraControls.style.display = 'none';
+                    videoFeed.srcObject = null;
+                }
+            }
+
+            foodImageUpload.addEventListener('change', function (event) {
+                stopCamera(); // Stop camera if a file is uploaded
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        imagePreview.src = e.target.result;
+                        imagePreview.style.display = 'block';
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    imagePreview.src = "#";
+                    imagePreview.style.display = 'none';
+                }
+            });
+
+            cameraButton.addEventListener('click', async () => {
+                stopCamera(); // Stop any existing camera streams
+                imagePreview.src = "#";
+                imagePreview.style.display = 'none'; // Hide image preview when camera is active
+                foodImageUpload.value = ''; // Clear any selected file
+
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } }); // Prefer back camera
+                    videoFeed.srcObject = stream;
+                    videoFeed.style.display = 'block';
+                    cameraControls.style.display = 'flex'; // Use flex for camera controls
+                    currentStream = stream; // Store the stream to stop it later
+                } catch (err) {
+                    console.error('Error accessing camera:', err);
+                    alert('Could not access camera. Please ensure permissions are granted.');
+                }
+            });
+
+            captureButton.addEventListener('click', () => {
+                if (videoFeed.srcObject) {
+                    cameraCanvas.width = videoFeed.videoWidth;
+                    cameraCanvas.height = videoFeed.videoHeight;
+                    const context = cameraCanvas.getContext('2d');
+                    context.drawImage(videoFeed, 0, 0, cameraCanvas.width, cameraCanvas.height);
+                    const imageDataUrl = cameraCanvas.toDataURL('image/jpeg', 0.9); // Capture as JPEG with quality
+
+                    imagePreview.src = imageDataUrl;
+                    imagePreview.style.display = 'block';
+                    stopCamera(); // Stop camera after capturing
+                } else {
+                    alert('No camera feed active.');
+                }
+            });
+
+            stopCameraButton.addEventListener('click', stopCamera);
+
+
+            analyzeButton.addEventListener('click', async () => {
+                let imageDataUrl = null;
+
+                // Prioritize captured image, then uploaded file
+                if (imagePreview.src && imagePreview.src !== "#") {
+                    imageDataUrl = imagePreview.src;
+                } else if (foodImageUpload.files[0]) {
+                    // Read file if no image preview (e.g., direct file upload)
+                    const file = foodImageUpload.files[0];
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        imageDataUrl = e.target.result;
+                        performAnalysis(imageDataUrl);
+                    };
+                    reader.readAsDataURL(file);
+                    return; // Exit early, analysis will run after file is read
+                } else {
+                    alert('Please select an image or capture one with the camera to analyze.');
+                    return;
+                }
+
+                if (imageDataUrl) {
+                    performAnalysis(imageDataUrl);
+                }
+            });
+
+           async function performAnalysis(imageDataUrl) {
+    loadingIndicator.style.display = 'block';
+    resultsDiv.innerHTML = ''; // Clear previous results
+    const selectedLanguage = languageSelect.value;
+
+    try {
+        // Call your Flask backend instead of OpenRouter directly
+        const response = await fetch("http://localhost:5000/api/analyze", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                imageDataUrl: imageDataUrl,
+                language: selectedLanguage
+            })
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(`API error: ${response.status} - ${errorData.error || 'Unknown error'}`);
+        }
+
+        const data = await response.json();
+        const analysisContent = data.analysis;
+
+                    // Improved text formatting (basic markdown to HTML conversion for common elements)
+                    let formattedContent = analysisContent
+                        .replace(/### (.*)/g, '<h3>$1</h3>')   // Convert ### to h3
+                        .replace(/## (.*)/g, '<h2>$1</h2>')    // Convert ## to h2
+                        .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>') // NEW LINE ADDED: Convert **bold** to <strong>bold</strong>
+                        .replace(/\* (.*)/g, '<li>$1</li>')     // Convert * to li
+                        .replace(/- (.*)/g, '<li>$1</li>');     // Also convert - to li
+
+                    // Wrap list items if they exist and aren't already in a list
+                    if (formattedContent.includes('<li>')) {
+                        // Basic logic to wrap lists. This might need more robust parsing for complex markdown.
+                        // For simplicity, we'll assume list items are grouped.
+                        const lines = formattedContent.split('<br>');
+                        let inList = false;
+                        let outputLines = [];
+                        for (const line of lines) {
+                            if (line.trim().startsWith('<li>')) {
+                                if (!inList) {
+                                    outputLines.push('<ul>');
+                                    inList = true;
+                                }
+                                outputLines.push(line);
+                            } else {
+                                if (inList) {
+                                    outputLines.push('</ul>');
+                                    inList = false;
+                                }
+                                outputLines.push(line);
+                            }
+                        }
+                        if (inList) { // Close any open list
+                            outputLines.push('</ul>');
+                        }
+                        formattedContent = outputLines.join('<br>');
+                    }
+                    formattedContent = formattedContent.replace(/<br>\s*<ul>/g, '<ul>').replace(/<\/ul>\s*<br>/g, '</ul>'); // Clean up extra breaks
+
+
+                    resultsDiv.innerHTML = `
+                        <h2>Analysis Results:</h2>
+                        ${formattedContent}
+                    `;
+
+                } catch (error) {
+                    console.error('Error during analysis:', error);
+                    resultsDiv.innerHTML = `<p style="color: red;">Error during analysis: ${error.message}. Please check console for details.</p>`;
+                } finally {
+                    loadingIndicator.style.display = 'none';
+                }
+            }
+
+            function getLanguageName(code) {
+                const languages = {
+                    "en": "English", "es": "Spanish", "fr": "French", "de": "German",
+                    "it": "Italian", "pt": "Portuguese", "zh": "Chinese", "ja": "Japanese",
+                    "ko": "Korean", "hi": "Hindi"
+                };
+                return languages[code] || "English";
+            }
+        });
+    </script>
+</body>
+
+</html>
