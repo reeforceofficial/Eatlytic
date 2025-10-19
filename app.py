@@ -11,7 +11,7 @@ app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 
 # API Configuration - Store in environment variables for security
-OPENROUTER_API_KEY = os.getenv('OPENROUTER_API_KEY', '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')
+OPENROUTER_API_KEY = os.getenv('OPENROUTER_API_KEY', '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')
 OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions"
 OPENROUTER_SITE_URL = os.getenv('SITE_URL', 'http://localhost:8000')
 OPENROUTER_SITE_NAME = os.getenv('SITE_NAME', 'Eatlytic')
@@ -54,7 +54,7 @@ def analyze_food():
         language_name = LANGUAGE_NAMES.get(language_code, "English")
         
         # Debug logging
-        print(f"\n🔍 Processing request:")
+        print(f"\nðŸ” Processing request:")
         print(f"   Language: {language_name} ({language_code})")
         print(f"   API Key: {OPENROUTER_API_KEY[:20]}...{OPENROUTER_API_KEY[-4:]}")
         print(f"   Image size: {len(image_data_url)} characters")
@@ -141,15 +141,15 @@ def index():
 
 if __name__ == '__main__':
     # Check and display API key status
-    if OPENROUTER_API_KEY and OPENROUTER_API_KEY != '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':
-        print(f"✅ API Key loaded: {OPENROUTER_API_KEY[:15]}...{OPENROUTER_API_KEY[-4:]}")
+    if OPENROUTER_API_KEY and OPENROUTER_API_KEY != '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':
+        print(f"âœ… API Key loaded: {OPENROUTER_API_KEY[:15]}...{OPENROUTER_API_KEY[-4:]}")
     else:
-        print("\n⚠️  WARNING: Please set your OPENROUTER_API_KEY in a .env file")
+        print("\nâš ï¸  WARNING: Please set your OPENROUTER_API_KEY in a .env file")
         print("Create a .env file with: OPENROUTER_API_KEY=your-actual-key\n")
     
     # Run the Flask app
-    print("🚀 Starting Eatlytic Backend Server...")
-    print("📍 Server will run on http://localhost:5000")
-    print("📝 Make sure to update your HTML to use this backend URL\n")
+    print("ðŸš€ Starting Eatlytic Backend Server...")
+    print("ðŸ“ Server will run on http://localhost:5000")
+    print("ðŸ“ Make sure to update your HTML to use this backend URL\n")
     
     app.run(debug=True, host='0.0.0.0', port=5000)

@@ -1,704 +1,964 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Eatlytic - Your Intelligent Food Companion</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
-
     <style>
-        /* CSS styles go here */
-        /* CSS styles go here */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         :root {
-            --primary-text-color: #2e3a47;
-            /* Dark charcoal */
-            --secondary-text-color: #5a6470;
-            /* Muted grey */
-            --background-light: #f8fcfb;
-            /* Off-white, subtle green tint */
-            --background-dark: #202b35;
-            /* Even darker blue-grey for panels */
-            --accent-color: #66bb6a;
-            /* Vibrant green, more natural food theme */
-            --accent-light: #81c784;
-            --accent-dark: #388e3c;
-            --button-bg-color: var(--accent-color);
-            --button-hover-color: var(--accent-light);
-            --camera-button-bg: #4CAF50;
-            /* Original green for consistency */
-            --camera-button-hover: #45a049;
-            --stop-button-bg: #f44336;
-            --stop-button-hover: #da190b;
+            --primary: #66bb6a;
+            --primary-dark: #388e3c;
+            --primary-light: #81c784;
+            --dark-bg: #0f1419;
+            --light-bg: #f8fcfb;
+            --card-bg: #ffffff;
+            --text-primary: #2e3a47;
+            --text-secondary: #5a6470;
+            --accent: #ff6b6b;
+            --accent-orange: #ffa500;
+        }
 
-            /* New: Shadow and border variables */
-            --shadow-light: 0 4px 15px rgba(0, 0, 0, 0.08);
-            --shadow-medium: 0 8px 30px rgba(0, 0, 0, 0.12);
-            --border-light: 1px solid #e0e0e0;
-            --border-medium: 1px solid #cce0e8;
-
-            /* Animation properties */
-            --transition-speed: 0.3s ease-out;
-            --fast-transition: 0.15s ease-in-out;
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #e8f4f8 0%, #f0f9fb 50%, #e3f2fd 100%);
+            color: var(--text-primary);
             min-height: 100vh;
-            background-color: var(--background-light);
-            color: var(--primary-text-color);
-            line-height: 1.6;
-            overflow-x: hidden;
-            /* Prevent horizontal scroll from animations */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
-        .container {
-            display: flex;
-            width: 100%;
-            max-width: 1400px;
-            min-height: 90vh;
-            box-shadow: var(--shadow-medium);
-            background-color: #fff;
-            border-radius: 16px;
-            /* Slightly more rounded */
-            overflow: hidden;
-            animation: fadeIn 0.8s ease-out forwards;
-        }
-
-        .left-panel {
-            flex: 1;
-            background-color: var(--background-dark);
-            display: flex;
-            align-items: flex-end;
-            padding: 40px;
-            position: relative;
-            overflow: hidden;
-            border-right: 1px solid rgba(255, 255, 255, 0.1);
-            /* Subtle separator */
-        }
-
-        .kitchen-image {
-            position: absolute;
+        /* Animated Background */
+        .animated-background {
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('https://image.pollinations.ai/prompt/modern%20dark%20kitchen%20with%20fresh%20fruit%20and%20vegetables%20on%20counter%2C%20photorealistic?width=800&height=1200');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            opacity: 0.7;
-            /* Slightly dim the background */
-            filter: brightness(0.7);
-            /* Darken it further */
-            transform: scale(1.05);
-            /* Slight zoom for depth */
+            background: linear-gradient(135deg, #f8f9fa 0%, #d575a594 25%, #94f180 50%, #4facfe 75%, #00f2fe 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            z-index: -2;
+            overflow: hidden;
         }
 
-        .eatlytic-logo {
-            font-family: 'Playfair Display', serif;
-            font-size: 3.8em;
-            /* Slightly larger */
-            color: white;
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .blob {
             position: absolute;
-            bottom: 40px;
-            /* Adjusted slightly */
-            left: 40px;
-            z-index: 2;
-            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
-            /* Stronger shadow */
-            opacity: 0;
-            transform: translateY(20px);
-            animation: slideInUp 0.6s ease-out 0.5s forwards;
-            /* Delayed animation */
+            opacity: 0.1;
+            border-radius: 50%;
+            filter: blur(60px);
         }
 
-        .right-panel {
-            flex: 1.2;
-            padding: 60px;
+        .blob1 {
+            width: 400px;
+            height: 400px;
+            background: var(--primary);
+            top: -100px;
+            left: -100px;
+            animation: float 15s infinite ease-in-out;
+            opacity: 0.15;
+        }
+
+        .blob2 {
+            width: 300px;
+            height: 300px;
+            background: var(--accent-orange);
+            bottom: -50px;
+            right: -50px;
+            animation: float 18s infinite ease-in-out reverse;
+            opacity: 0.12;
+        }
+
+        .blob3 {
+            width: 350px;
+            height: 350px;
+            background: var(--primary-light);
+            bottom: 100px;
+            left: 50%;
+            animation: float 20s infinite ease-in-out;
+            opacity: 0.1;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(30px, -50px) scale(1.1); }
+            50% { transform: translate(-30px, 30px) scale(0.9); }
+            75% { transform: translate(50px, 20px) scale(1.05); }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            width: 100%;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .left-section {
             display: flex;
             flex-direction: column;
             justify-content: center;
-            background-color: var(--background-light);
+            gap: 30px;
+            animation: slideInLeft 0.8s ease-out;
         }
 
-        .app-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 3.8em;
-            color: var(--primary-text-color);
-            margin-bottom: 10px;
+        .right-section {
+            animation: slideInRight 0.8s ease-out;
+            width: 100%;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            color: var(--text-primary);
             line-height: 1.1;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: slideInUp 0.6s ease-out 0.2s forwards;
         }
 
-        .app-tagline {
-            font-size: 1.3em;
-            color: var(--secondary-text-color);
-            margin-bottom: 40px;
-            max-width: 500px;
-            line-height: 1.5;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: slideInUp 0.6s ease-out 0.3s forwards;
+        .hero-text p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
         }
 
-        .upload-section {
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 12px;
-            /* Consistent rounding */
-            box-shadow: var(--shadow-light);
-            margin-top: 30px;
-            border: var(--border-light);
-            opacity: 0;
-            transform: translateY(20px);
-            animation: slideInUp 0.6s ease-out 0.4s forwards;
-        }
-
-        .upload-section h2 {
-            font-family: 'Inter', sans-serif;
-            font-size: 1.8em;
-            color: var(--primary-text-color);
-            margin-bottom: 25px;
-            border-bottom: 2px solid var(--accent-color);
-            /* Emphasize heading */
-            padding-bottom: 10px;
+        .emoji {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
             display: inline-block;
-            /* Make border only as wide as text */
-            animation: popIn 0.4s ease-out 0.8s forwards;
-            /* Delayed pop */
+            animation: slideInDown 0.8s ease-out;
         }
 
-        /* Input and Button Styling */
+        .feature-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            animation: slideInUp 0.8s ease-out 0.2s both;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: rgba(102, 187, 106, 0.1);
+            border-left: 4px solid var(--primary);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-item:hover {
+            background: rgba(102, 187, 106, 0.2);
+            transform: translateX(8px);
+        }
+
+        .feature-item i {
+            font-size: 1.4rem;
+            color: var(--primary);
+            min-width: 30px;
+            flex-shrink: 0;
+        }
+
+        .feature-item span {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(102, 187, 106, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 80px rgba(102, 187, 106, 0.2);
+        }
+
+        .card-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .card-title i {
+            color: var(--primary);
+        }
+
         .input-group {
             display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
+            flex-direction: column;
+            gap: 12px;
             margin-bottom: 20px;
-            align-items: center;
         }
 
-        input[type="file"] {
-            flex: 1 1 200px;
-            padding: 12px 18px;
-            /* More padding */
-            border: var(--border-light);
-            border-radius: 8px;
-            font-size: 1em;
-            background-color: #fcfcfc;
-            color: var(--primary-text-color);
-            box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.05);
-            transition: border-color var(--fast-transition), box-shadow var(--fast-transition);
-            cursor: pointer;
-            /* Indicate it's clickable */
+        input[type="file"],
+        select {
+            padding: 14px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background-color: #f8f9fa;
+            width: 100%;
+        }
+
+        input[type="file"]:hover,
+        select:hover {
+            border-color: var(--primary);
+        }
+
+        input[type="file"]:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(102, 187, 106, 0.1);
+            background-color: #ffffff;
         }
 
         input[type="file"]::file-selector-button {
-            background-color: var(--accent-color);
+            background: var(--primary);
             color: white;
-            padding: 8px 15px;
+            padding: 10px 18px;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
-            transition: background-color var(--fast-transition);
-            margin-right: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-right: 8px;
+            font-size: 0.9rem;
         }
 
         input[type="file"]::file-selector-button:hover {
-            background-color: var(--accent-dark);
+            background: var(--primary-dark);
         }
 
-        input[type="file"]:focus {
-            outline: none;
-            border-color: var(--accent-color);
-            box-shadow: 0 0 0 3px rgba(102, 187, 106, 0.2);
-            /* Soft focus ring */
+        .button-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
         }
-
 
         button {
-            background-color: var(--button-bg-color);
-            color: white;
-            padding: 12px 25px;
+            padding: 13px 20px;
             border: none;
-            border-radius: 8px;
-            font-size: 1.05em;
+            border-radius: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
             cursor: pointer;
-            transition: background-color var(--transition-speed), transform 0.2s ease, box-shadow var(--transition-speed);
+            transition: all 0.3s ease;
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            white-space: nowrap;
+            min-height: 45px;
         }
 
-        button:hover {
-            background-color: var(--button-hover-color);
+        button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+            pointer-events: none;
+        }
+
+        button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        #analyzeButton {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            grid-column: 1 / -1;
+        }
+
+        #analyzeButton:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        button:active {
-            transform: translateY(0);
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 30px rgba(102, 187, 106, 0.3);
         }
 
         #cameraButton {
-            background-color: var(--camera-button-bg);
+            background: linear-gradient(135deg, var(--accent-orange) 0%, #ff8c42 100%);
+            color: white;
         }
 
         #cameraButton:hover {
-            background-color: var(--camera-button-hover);
-        }
-
-        #captureButton {
-            background-color: var(--camera-button-bg);
-        }
-
-        #captureButton:hover {
-            background-color: var(--camera-button-hover);
-        }
-
-        #stopCameraButton {
-            background-color: var(--stop-button-bg);
-        }
-
-        #stopCameraButton:hover {
-            background-color: var(--stop-button-hover);
-        }
-
-        #languageSelect {
-            padding: 12px 18px;
-            /* Consistent with input */
-            border: var(--border-light);
-            border-radius: 8px;
-            font-size: 1em;
-            background-color: #fcfcfc;
-            color: var(--primary-text-color);
-            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
-            appearance: none;
-            /* Remove default select styling */
-            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%235a6470%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-6.5%200-12.3%203.2-16.1%208.1-3.9%204.9-3.9%2011.6%200%2016.5l128.8%20141.6c4.3%204.8%2010.5%207.2%2016.7%207.2s12.4-2.4%2016.7-7.2l128.8-141.6c3.8-4.9%203.8-11.6%200-16.5z%22%2F%3E%3C%2Fsvg%3E');
-            background-repeat: no-repeat;
-            background-position: right 15px center;
-            /* Adjust arrow position */
-            background-size: 10px;
-            /* Adjust arrow size */
-            padding-right: 40px;
-            /* Make more space for the arrow */
-            cursor: pointer;
-            transition: border-color var(--fast-transition), box-shadow var(--fast-transition);
-        }
-
-        #languageSelect:hover {
-            border-color: #ccc;
-        }
-
-        #languageSelect:focus {
-            outline: none;
-            border-color: var(--accent-color);
-            box-shadow: 0 0 0 3px rgba(102, 187, 106, 0.2);
-        }
-
-
-        #loadingIndicator {
-            margin-top: 20px;
-            font-style: italic;
-            color: var(--secondary-text-color);
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            opacity: 0;
-            /* Hidden by default, animated when shown */
-            animation: pulse 1.5s infinite ease-in-out;
-        }
-
-        #loadingIndicator.show {
-            opacity: 1;
-            transition: opacity var(--fast-transition);
-        }
-
-        #loadingIndicator::before {
-            content: '';
-            width: 16px;
-            height: 16px;
-            border: 3px solid var(--accent-color);
-            border-top-color: transparent;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-
-        .results-box {
-            margin-top: 30px;
-            padding: 25px;
-            background-color: #f0f8f4;
-            /* Softer background for results */
-            border-radius: 12px;
-            min-height: 180px;
-            border: var(--border-medium);
-            font-size: 0.95em;
-            color: var(--primary-text-color);
-            line-height: 1.7;
-            box-shadow: inset 0 1px 6px rgba(0, 0, 0, 0.04);
-            max-height: 400px;
-            overflow-y: auto;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: slideInUp 0.6s ease-out 0.6s forwards;
-            /* Delayed animation */
-            transition: opacity var(--transition-speed), transform var(--transition-speed);
-        }
-
-        /* Make results visible when content is added */
-        .results-box:not(:empty) {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .results-box h2,
-        .results-box h3 {
-            font-family: 'Playfair Display', serif;
-            color: var(--primary-text-color);
-            margin-top: 15px;
-            margin-bottom: 10px;
-        }
-
-        .results-box h2 {
-            font-size: 1.6em;
-            border-bottom: 2px solid var(--accent-light);
-            /* Softer accent line */
-            padding-bottom: 5px;
-        }
-
-        .results-box h3 {
-            font-size: 1.3em;
-            color: #4a5a6a;
-        }
-
-        .results-box ul {
-            list-style-type: disc;
-            margin-left: 20px;
-            padding-left: 0;
-        }
-
-        .results-box li {
-            margin-bottom: 8px;
-        }
-
-
-        #imagePreview {
-            max-width: 100%;
-            max-height: 250px;
-            object-fit: contain;
-            margin-top: 15px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            display: none;
-            border: var(--border-light);
-            box-shadow: var(--shadow-light);
-            transition: all var(--transition-speed);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 165, 0, 0.3);
         }
 
         #videoFeed {
             width: 100%;
-            max-width: 400px;
+            max-height: 500px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border: 2px solid var(--primary);
             display: none;
-            margin-top: 15px;
-            border-radius: 8px;
-            border: var(--border-light);
-            box-shadow: var(--shadow-light);
-            transition: all var(--transition-speed);
+            object-fit: cover;
         }
 
         #cameraControls {
-            margin-top: 10px;
-            margin-bottom: 20px;
             display: none;
-            /* Controlled by JS */
+            gap: 8px;
+            margin-bottom: 15px;
             flex-wrap: wrap;
-            justify-content: center;
+        }
+
+        #cameraControls button {
+            flex: 1;
+            min-width: 120px;
+        }
+
+        #captureButton {
+            background: var(--primary);
+            color: white;
+        }
+
+        #stopCameraButton {
+            background: var(--accent);
+            color: white;
+        }
+
+        #imagePreview {
+            width: 100%;
+            max-height: 350px;
+            border-radius: 10px;
+            margin: 15px 0;
+            display: none;
+            border: 2px solid var(--primary);
+            object-fit: cover;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .results-box {
+            background: linear-gradient(135deg, #f0f8f4 0%, #f5fbf9 100%);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            max-height: 500px;
+            overflow-y: auto;
+            border: 2px solid var(--primary);
+            display: none;
+            animation: slideInUp 0.5s ease;
+        }
+
+        .results-box.show {
+            display: block;
+        }
+
+        .results-box h2 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .results-box h3 {
+            color: var(--text-primary);
+            margin-top: 12px;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .results-box ul {
+            margin-left: 20px;
+            color: var(--text-secondary);
+        }
+
+        .results-box li {
+            margin-bottom: 6px;
+            line-height: 1.5;
+        }
+
+        .results-box p {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        #loadingIndicator {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            color: var(--primary);
+            font-weight: 600;
             gap: 10px;
+            align-items: center;
+            justify-content: center;
         }
 
-        /* --- Keyframe Animations --- */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: scale(0.98);
-            }
-
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        @keyframes slideInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes popIn {
-            from {
-                opacity: 0;
-                transform: scale(0.8);
-            }
-
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
+        .spinner {
+            display: inline-block;
+            width: 25px;
+            height: 25px;
+            border: 3px solid rgba(102, 187, 106, 0.3);
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
         }
 
         @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-                opacity: 1;
-            }
-
-            50% {
-                transform: scale(1.03);
-                opacity: 0.8;
-            }
-
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
         }
 
-        /* Responsive adjustments */
-        @media (max-width: 900px) {
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slideInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Tablet (768px - 1024px) */
+        @media (max-width: 1024px) {
             .container {
-                flex-direction: column;
-                min-height: unset;
-                margin: 20px;
-                width: auto;
-                border-radius: 12px;
+                padding: 30px 20px;
             }
 
-            .left-panel {
-                min-height: 180px;
-                /* Slightly smaller on mobile */
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+
+            .hero-text h1 {
+                font-size: 2.8rem;
+            }
+
+            .hero-text p {
+                font-size: 1rem;
+            }
+
+            .card {
+                padding: 30px;
+            }
+
+            .button-group {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            #analyzeButton {
+                grid-column: 1 / -1;
+            }
+        }
+
+        /* Small Tablet (600px - 768px) */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 15px;
+            }
+
+            .main-content {
+                gap: 40px;
+            }
+
+            .hero-text h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero-text p {
+                font-size: 0.95rem;
+            }
+
+            .emoji {
+                font-size: 2.5rem;
+            }
+
+            .card {
                 padding: 25px;
-                border-radius: 12px 12px 0 0;
-                border-right: none;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 16px;
             }
 
-            .eatlytic-logo {
-                font-size: 2.5em;
-                bottom: 25px;
-                left: 25px;
+            .card-title {
+                font-size: 1.4rem;
+                margin-bottom: 20px;
             }
 
-            .right-panel {
-                padding: 25px;
-                border-radius: 0 0 12px 12px;
-            }
-
-            .app-title {
-                font-size: 2.2em;
-                margin-bottom: 12px;
-            }
-
-            .app-tagline {
-                font-size: 1.05em;
-                margin-bottom: 25px;
-            }
-
-            .upload-section {
-                padding: 18px;
-            }
-
-            .upload-section h2 {
-                font-size: 1.4em;
-                margin-bottom: 12px;
-            }
-
-            .input-group {
-                flex-direction: column;
+            .feature-item {
+                padding: 12px;
                 gap: 12px;
             }
 
-            input[type="file"],
-            button,
-            #languageSelect {
-                width: 100%;
-                padding: 10px 15px;
+            .feature-item i {
+                font-size: 1.2rem;
             }
 
-            #languageSelect {
-                padding-right: 35px;
-                /* Adjust for smaller arrow */
-                background-position: right 12px center;
-                background-size: 9px;
+            .feature-item span {
+                font-size: 0.9rem;
             }
 
-            #cameraControls {
-                justify-content: center;
+            button {
+                padding: 12px 16px;
+                font-size: 0.9rem;
+                min-height: 42px;
             }
 
-            #loadingIndicator {
-                margin-top: 15px;
+            .button-group {
+                gap: 8px;
             }
 
-            #loadingIndicator::before {
-                width: 14px;
-                height: 14px;
+            #videoFeed {
+                max-height: 400px;
+            }
+
+            #imagePreview {
+                max-height: 280px;
             }
 
             .results-box {
-                margin-top: 25px;
-                padding: 20px;
+                padding: 18px;
+                max-height: 400px;
             }
 
             .results-box h2 {
-                font-size: 1.4em;
+                font-size: 1.1rem;
             }
 
             .results-box h3 {
-                font-size: 1.15em;
+                font-size: 1rem;
             }
+
+            .blob1 { width: 300px; height: 300px; opacity: 0.1; }
+            .blob2 { width: 200px; height: 200px; opacity: 0.08; }
+            .blob3 { width: 250px; height: 250px; opacity: 0.08; }
         }
 
-        /* Responsive adjustments */
-        @media (max-width: 900px) {
+        /* Mobile (480px - 600px) */
+        @media (max-width: 600px) {
             .container {
-                flex-direction: column;
-                min-height: unset;
-                /* Allow container to size based on content */
-                margin: 20px;
-                width: auto;
+                padding: 15px;
+                min-height: auto;
             }
 
-            .left-panel {
-                min-height: 200px;
-                padding: 30px;
-                border-radius: 12px 12px 0 0;
+            .main-content {
+                gap: 30px;
             }
 
-            .eatlytic-logo {
-                font-size: 2.8em;
-                bottom: 30px;
-                left: 30px;
+            .hero-text h1 {
+                font-size: 1.8rem;
             }
 
-            .right-panel {
-                padding: 30px;
-                border-radius: 0 0 12px 12px;
+            .hero-text p {
+                font-size: 0.9rem;
             }
 
-            .app-title {
-                font-size: 2.5em;
-                margin-bottom: 15px;
+            .emoji {
+                font-size: 2rem;
             }
 
-            .app-tagline {
-                font-size: 1.1em;
-                margin-bottom: 30px;
-            }
-
-            .upload-section {
+            .card {
                 padding: 20px;
+                border-radius: 14px;
             }
 
-            .upload-section h2 {
-                font-size: 1.5em;
-                margin-bottom: 15px;
+            .card-title {
+                font-size: 1.2rem;
+                margin-bottom: 18px;
             }
 
             .input-group {
-                flex-direction: column;
                 gap: 10px;
             }
 
-            input[type="file"],
-            button,
-            #languageSelect {
-                width: 100%;
+            .feature-list {
+                gap: 12px;
+            }
+
+            .feature-item {
+                padding: 10px;
+                gap: 10px;
+            }
+
+            .feature-item i {
+                font-size: 1.1rem;
+            }
+
+            .feature-item span {
+                font-size: 0.85rem;
+            }
+
+            button {
+                padding: 11px 14px;
+                font-size: 0.85rem;
+                min-height: 40px;
+            }
+
+            .button-group {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+
+            input[type="file"]::file-selector-button {
+                padding: 8px 14px;
+                font-size: 0.8rem;
+            }
+
+            #videoFeed {
+                max-height: 300px;
+                margin: 10px 0;
+            }
+
+            #imagePreview {
+                max-height: 250px;
+                margin: 10px 0;
             }
 
             #cameraControls {
-                justify-content: center;
+                gap: 6px;
+            }
+
+            #cameraControls button {
+                min-width: 100px;
+                font-size: 0.8rem;
+            }
+
+            .results-box {
+                padding: 15px;
+                max-height: 350px;
+                margin-top: 15px;
+                border-radius: 8px;
+            }
+
+            .results-box h2 {
+                font-size: 1rem;
+                margin-bottom: 12px;
+            }
+
+            .results-box h3 {
+                font-size: 0.9rem;
+                margin-top: 10px;
+                margin-bottom: 6px;
+            }
+
+            .results-box ul {
+                margin-left: 18px;
+            }
+
+            .results-box li {
+                font-size: 0.9rem;
+            }
+
+            #loadingIndicator {
+                font-size: 0.9rem;
+            }
+
+            .spinner {
+                width: 20px;
+                height: 20px;
+            }
+
+            .blob1 { width: 200px; height: 200px; opacity: 0.08; top: -50px; left: -50px; }
+            .blob2 { width: 150px; height: 150px; opacity: 0.06; bottom: -30px; right: -30px; }
+            .blob3 { width: 180px; height: 180px; opacity: 0.06; }
+        }
+
+        /* Small Mobile (under 480px) */
+        @media (max-width: 480px) {
+            .container {
+                padding: 12px;
+            }
+
+            .hero-text h1 {
+                font-size: 1.5rem;
+                margin-bottom: 12px;
+            }
+
+            .hero-text p {
+                font-size: 0.85rem;
+            }
+
+            .emoji {
+                font-size: 1.8rem;
+                margin-bottom: 10px;
+            }
+
+            .card {
+                padding: 18px;
+            }
+
+            .card-title {
+                font-size: 1.1rem;
+                margin-bottom: 15px;
+                gap: 8px;
+            }
+
+            .button-group {
+                gap: 6px;
+            }
+
+            button {
+                padding: 10px 12px;
+                font-size: 0.8rem;
+                min-height: 38px;
+                gap: 6px;
+            }
+
+            .feature-item {
+                padding: 8px;
+                gap: 8px;
+            }
+
+            input[type="file"],
+            select {
+                padding: 12px;
+                font-size: 0.9rem;
+            }
+
+            #videoFeed,
+            #imagePreview {
+                max-height: 200px;
+            }
+
+            .results-box {
+                padding: 12px;
+                max-height: 300px;
+                border-radius: 8px;
+                font-size: 0.85rem;
+            }
+
+            .results-box li {
+                font-size: 0.85rem;
+                margin-bottom: 4px;
+            }
+        }
+
+        /* Touch-friendly interactions */
+        @media (hover: none) and (pointer: coarse) {
+            button {
+                min-height: 48px;
+            }
+
+            .feature-item {
+                padding: 14px;
+            }
+
+            input[type="file"],
+            select {
+                padding: 16px;
+                font-size: 16px; /* Prevents zoom on iOS */
             }
         }
     </style>
 </head>
-
 <body>
+    <div class="animated-background">
+        <div class="blob blob1"></div>
+        <div class="blob blob2"></div>
+        <div class="blob blob3"></div>
+    </div>
+
     <div class="container">
-        <div class="left-panel">
-            <div class="kitchen-image"></div>
-            <div class="eatlytic-logo">Eatlytic</div>
-        </div>
-        <div class="right-panel">
-            <h1 class="app-title">Eatlytic</h1>
-            <p class="app-tagline">Your intelligent food companion for understanding your body's response to food.</p>
-
-            <section class="upload-section">
-                <h2>Analyze Your Food</h2>
-
-                <div class="input-group">
-                    <input type="file" id="foodImageUpload" accept="image/*">
-                    <button id="cameraButton"><i class="fas fa-camera"></i> Use Camera</button>
-                    <select id="languageSelect">
-                        <option value="en">English</option>
-                        <option value="es">Español</option>
-                        <option value="fr">Français</option>
-                        <option value="de">Deutsch</option>
-                        <option value="it">Italiano</option>
-                        <option value="pt">Português</option>
-                        <option value="zh">中文</option>
-                        <option value="ja">日本語</option>
-                        <option value="ko">한국어</option>
-                        <option value="hi">हिंदी</option>
-                    </select>
+        <div class="main-content">
+            <!-- Left Section -->
+            <div class="left-section">
+                <div class="hero-text">
+                    <div class="emoji">🥗</div>
+                    <h1>Eatlytic</h1>
+                    <p>Your intelligent food companion for understanding your body's response to food.</p>
                 </div>
 
-                <video id="videoFeed" autoplay playsinline></video>
-                <div id="cameraControls">
-                    <button id="captureButton"><i class="fas fa-circle-dot"></i> Capture Photo</button>
-                    <button id="stopCameraButton"><i class="fas fa-video-slash"></i> Stop Camera</button>
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <i class="fas fa-leaf"></i>
+                        <span>Detailed nutritional breakdown</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-heartbeat"></i>
+                        <span>Heart, muscle & energy impact</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-lightbulb"></i>
+                        <span>Smart consumption tips</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Healthy eating awareness</span>
+                    </div>
                 </div>
-                <canvas id="cameraCanvas" style="display:none;"></canvas>
-                <!-- Hidden canvas for capturing -->
+            </div>
 
-                <img id="imagePreview" src="#" alt="Image Preview">
-                <button id="analyzeButton"><i class="fas fa-flask"></i> Analyze Food</button>
-                <div id="loadingIndicator" style="display: none;">Analyzing...</div>
-                <div id="results" class="results-box">
-                    <p>Upload an image or use your camera to get a detailed food analysis!</p>
+            <!-- Right Section -->
+            <div class="right-section">
+                <div class="card">
+                    <div class="card-title">
+                        <i class="fas fa-camera"></i>
+                        Analyze Your Food
+                    </div>
+
+                    <div class="input-group">
+                        <input type="file" id="foodImageUpload" accept="image/*">
+                        <select id="languageSelect">
+                            <!-- European Languages -->
+                            <option value="en">🇬🇧 English</option>
+                            <option value="es">🇪🇸 Español (Spanish)</option>
+                            <option value="fr">🇫🇷 Français (French)</option>
+                            <option value="de">🇩🇪 Deutsch (German)</option>
+                            <option value="it">🇮🇹 Italiano (Italian)</option>
+                            <option value="pt">🇵🇹 Português (Portuguese)</option>
+                            <option value="nl">🇳🇱 Nederlands (Dutch)</option>
+                            <option value="pl">🇵🇱 Polski (Polish)</option>
+                            <option value="ru">🇷🇺 Русский (Russian)</option>
+                            <option value="uk">🇺🇦 Українська (Ukrainian)</option>
+                            <option value="sv">🇸🇪 Svenska (Swedish)</option>
+                            <option value="no">🇳🇴 Norsk (Norwegian)</option>
+                            <option value="da">🇩🇰 Dansk (Danish)</option>
+                            <option value="fi">🇫🇮 Suomi (Finnish)</option>
+                            <option value="cs">🇨🇿 Čeština (Czech)</option>
+                            <option value="hu">🇭🇺 Magyar (Hungarian)</option>
+                            <option value="ro">🇷🇴 Română (Romanian)</option>
+                            <option value="el">🇬🇷 Ελληνικά (Greek)</option>
+                            <option value="tr">🇹🇷 Türkçe (Turkish)</option>
+                            
+                            <!-- Asian Languages -->
+                            <option value="zh">🇨🇳 中文 (Chinese - Simplified)</option>
+                            <option value="zh-TW">🇹🇼 繁體中文 (Chinese - Traditional)</option>
+                            <option value="ja">🇯🇵 日本語 (Japanese)</option>
+                            <option value="ko">🇰🇷 한국어 (Korean)</option>
+                            <option value="vi">🇻🇳 Tiếng Việt (Vietnamese)</option>
+                            <option value="th">🇹🇭 ไทย (Thai)</option>
+                            <option value="id">🇮🇩 Bahasa Indonesia (Indonesian)</option>
+                            <option value="ms">🇲🇾 Bahasa Melayu (Malay)</option>
+                            <option value="fil">🇵🇭 Filipino (Tagalog)</option>
+                            <option value="my">🇲🇲 မြန်မာ (Burmese)</option>
+                            <option value="km">🇰🇭 ខ្មែរ (Khmer)</option>
+                            <option value="lo">🇱🇦 ລາວ (Lao)</option>
+                            
+                            <!-- South Asian Languages -->
+                            <option value="hi">🇮🇳 हिंदी (Hindi)</option>
+                            <option value="bn">🇧🇩 বাংলা (Bengali)</option>
+                            <option value="pa">🇮🇳 ਪੰਜਾਬੀ (Punjabi)</option>
+                            <option value="ta">🇮🇳 தமிழ் (Tamil)</option>
+                            <option value="te">🇮🇳 తెలుగు (Telugu)</option>
+                            <option value="kn">🇮🇳 ಕನ್ನಡ (Kannada)</option>
+                            <option value="ml">🇮🇳 മലയാളം (Malayalam)</option>
+                            <option value="ur">🇵🇰 اردو (Urdu)</option>
+                            <option value="ne">🇳🇵 नेपाली (Nepali)</option>
+                            <option value="si">🇱🇰 සිංහල (Sinhala)</option>
+                            
+                            <!-- Middle Eastern & African Languages -->
+                            <option value="ar">🇸🇦 العربية (Arabic)</option>
+                            <option value="he">🇮🇱 עברית (Hebrew)</option>
+                            <option value="fa">🇮🇷 فارسی (Persian)</option>
+                            <option value="sw">🇰🇪 Kiswahili (Swahili)</option>
+                            <option value="am">🇪🇹 አማርኛ (Amharic)</option>
+                            <option value="zu">🇿🇦 isiZulu (Zulu)</option>
+                            <option value="xh">🇿🇦 isiXhosa (Xhosa)</option>
+                            <option value="af">🇿🇦 Afrikaans</option>
+                            <option value="ha">🇳🇬 Hausa</option>
+                            <option value="yo">🇳🇬 Yorùbá (Yoruba)</option>
+                            
+                            <!-- Americas Languages -->
+                            <option value="en-US">🇺🇸 English (US)</option>
+                            <option value="es-MX">🇲🇽 Español Mexicano (Mexican Spanish)</option>
+                            <option value="pt-BR">🇧🇷 Português Brasileiro (Brazilian Portuguese)</option>
+                            <option value="qu">🇵🇪 Quechua</option>
+                            <option value="ay">🇧🇴 Aymara</option>
+                            
+                            <!-- Other Languages -->
+                            <option value="ca">🇪🇸 Català (Catalan)</option>
+                            <option value="eu">🇪🇸 Euskera (Basque)</option>
+                            <option value="gl">🇪🇸 Galego (Galician)</option>
+                            <option value="sq">🇦🇱 Shqip (Albanian)</option>
+                            <option value="mk">🇲🇰 Македонски (Macedonian)</option>
+                            <option value="bg">🇧🇬 Български (Bulgarian)</option>
+                            <option value="sr">🇷🇸 Српски (Serbian)</option>
+                            <option value="hr">🇭🇷 Hrvatski (Croatian)</option>
+                            <option value="sl">🇸🇮 Slovenščina (Slovenian)</option>
+                            <option value="sk">🇸🇰 Slovenčina (Slovak)</option>
+                            <option value="lt">🇱🇹 Lietuvių (Lithuanian)</option>
+                            <option value="lv">🇱🇻 Latvietis (Latvian)</option>
+                            <option value="et">🇪🇪 Eesti (Estonian)</option>
+                        </select>
+                    </div>
+
+                    <div class="button-group">
+                        <button id="cameraButton"><i class="fas fa-camera"></i> Camera</button>
+                    </div>
+
+                    <video id="videoFeed" autoplay playsinline></video>
+                    <div id="cameraControls">
+                        <button id="captureButton"><i class="fas fa-circle-dot"></i> Capture</button>
+                        <button id="stopCameraButton"><i class="fas fa-stop"></i> Stop</button>
+                    </div>
+                    <canvas id="cameraCanvas" style="display:none;"></canvas>
+                    <img id="imagePreview" src="#" alt="Preview">
+
+                    <button id="analyzeButton"><i class="fas fa-flask"></i> Analyze Food</button>
+                    <div id="loadingIndicator">
+                        <span class="spinner"></span>
+                        <span>Analyzing your food...</span>
+                    </div>
+                    <div id="results" class="results-box"></div>
                 </div>
-            </section>
+            </div>
         </div>
     </div>
 
@@ -711,23 +971,14 @@
             const resultsDiv = document.getElementById('results');
             const languageSelect = document.getElementById('languageSelect');
 
-            // Camera elements
             const cameraButton = document.getElementById('cameraButton');
             const videoFeed = document.getElementById('videoFeed');
             const cameraControls = document.getElementById('cameraControls');
             const captureButton = document.getElementById('captureButton');
             const stopCameraButton = document.getElementById('stopCameraButton');
             const cameraCanvas = document.getElementById('cameraCanvas');
-            let currentStream; // To hold the camera stream
+            let currentStream;
 
-            // !!! WARNING: NEVER DEPLOY THIS CODE WITH THE API KEY EXPOSED !!!
-            // This API key is directly visible in the browser's source code.
-            // For production, all API calls must go through a secure backend server.
-            // const OPENROUTER_API_KEY = "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";
-            // const OPENROUTER_SITE_URL = "http://localhost:8000"; // Use your actual site URL if deployed securely
-            // const OPENROUTER_SITE_NAME = "Eatlytic Local Test";
-
-            // Function to stop camera stream
             function stopCamera() {
                 if (currentStream) {
                     currentStream.getTracks().forEach(track => track.stop());
@@ -738,7 +989,7 @@
             }
 
             foodImageUpload.addEventListener('change', function (event) {
-                stopCamera(); // Stop camera if a file is uploaded
+                stopCamera();
                 const file = event.target.files[0];
                 if (file) {
                     const reader = new FileReader();
@@ -754,50 +1005,58 @@
             });
 
             cameraButton.addEventListener('click', async () => {
-                stopCamera(); // Stop any existing camera streams
+                stopCamera();
                 imagePreview.src = "#";
-                imagePreview.style.display = 'none'; // Hide image preview when camera is active
-                foodImageUpload.value = ''; // Clear any selected file
+                imagePreview.style.display = 'none';
+                foodImageUpload.value = '';
 
                 try {
-                    const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } }); // Prefer back camera
+                    let stream = null;
+                    const cameraConfigs = [
+                        { video: { facingMode: { ideal: 'environment' } } },
+                        { video: { facingMode: 'user', width: { ideal: 1280 }, height: { ideal: 720 } } },
+                        { video: true }
+                    ];
+
+                    for (const config of cameraConfigs) {
+                        try {
+                            stream = await navigator.mediaDevices.getUserMedia(config);
+                            if (stream) break;
+                        } catch (err) {
+                            continue;
+                        }
+                    }
+
+                    if (!stream) throw new Error('No camera configuration worked');
+
                     videoFeed.srcObject = stream;
                     videoFeed.style.display = 'block';
-                    cameraControls.style.display = 'flex'; // Use flex for camera controls
-                    currentStream = stream; // Store the stream to stop it later
+                    cameraControls.style.display = 'flex';
+                    currentStream = stream;
                 } catch (err) {
                     console.error('Error accessing camera:', err);
-                    alert('Could not access camera. Please ensure permissions are granted.');
+                    alert('Could not access camera. Please check permissions.');
                 }
             });
 
             captureButton.addEventListener('click', () => {
-                if (videoFeed.srcObject) {
-                    cameraCanvas.width = videoFeed.videoWidth;
-                    cameraCanvas.height = videoFeed.videoHeight;
-                    const context = cameraCanvas.getContext('2d');
-                    context.drawImage(videoFeed, 0, 0, cameraCanvas.width, cameraCanvas.height);
-                    const imageDataUrl = cameraCanvas.toDataURL('image/jpeg', 0.9); // Capture as JPEG with quality
-
-                    imagePreview.src = imageDataUrl;
-                    imagePreview.style.display = 'block';
-                    stopCamera(); // Stop camera after capturing
-                } else {
-                    alert('No camera feed active.');
-                }
+                const ctx = cameraCanvas.getContext('2d');
+                cameraCanvas.width = videoFeed.videoWidth;
+                cameraCanvas.height = videoFeed.videoHeight;
+                ctx.drawImage(videoFeed, 0, 0);
+                imagePreview.src = cameraCanvas.toDataURL('image/jpeg');
+                imagePreview.style.display = 'block';
+                stopCamera();
             });
 
             stopCameraButton.addEventListener('click', stopCamera);
 
-
             analyzeButton.addEventListener('click', async () => {
                 let imageDataUrl = null;
 
-                // Prioritize captured image, then uploaded file
                 if (imagePreview.src && imagePreview.src !== "#") {
                     imageDataUrl = imagePreview.src;
                 } else if (foodImageUpload.files[0]) {
-                    // Read file if no image preview (e.g., direct file upload)
                     const file = foodImageUpload.files[0];
                     const reader = new FileReader();
                     reader.onload = (e) => {
@@ -805,60 +1064,52 @@
                         performAnalysis(imageDataUrl);
                     };
                     reader.readAsDataURL(file);
-                    return; // Exit early, analysis will run after file is read
+                    return;
                 } else {
-                    alert('Please select an image or capture one with the camera to analyze.');
+                    alert('Please select an image or capture one with the camera.');
                     return;
                 }
 
-                if (imageDataUrl) {
-                    performAnalysis(imageDataUrl);
-                }
+                if (imageDataUrl) performAnalysis(imageDataUrl);
             });
 
-           async function performAnalysis(imageDataUrl) {
-    loadingIndicator.style.display = 'block';
-    resultsDiv.innerHTML = ''; // Clear previous results
-    const selectedLanguage = languageSelect.value;
+            async function performAnalysis(imageDataUrl) {
+                loadingIndicator.style.display = 'flex';
+                resultsDiv.classList.remove('show');
+                resultsDiv.innerHTML = '';
+                const selectedLanguage = languageSelect.value;
 
-    try {
-        // Call your Flask backend instead of OpenRouter directly
-        const response = await fetch("http://localhost:5000/api/analyze", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                imageDataUrl: imageDataUrl,
-                language: selectedLanguage
-            })
-        });
+                try {
+                   const response = await fetch("https://eatlytic-1.onrender.com/api/analyze", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            imageDataUrl: imageDataUrl,
+                            language: selectedLanguage
+                        })
+                    });
 
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(`API error: ${response.status} - ${errorData.error || 'Unknown error'}`);
-        }
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        throw new Error(`API error: ${response.status} - ${errorData.error}`);
+                    }
 
-        const data = await response.json();
-        const analysisContent = data.analysis;
+                    const data = await response.json();
+                    const analysisContent = data.analysis;
 
-                    // Improved text formatting (basic markdown to HTML conversion for common elements)
                     let formattedContent = analysisContent
-                        .replace(/### (.*)/g, '<h3>$1</h3>')   // Convert ### to h3
-                        .replace(/## (.*)/g, '<h2>$1</h2>')    // Convert ## to h2
-                        .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>') // NEW LINE ADDED: Convert **bold** to <strong>bold</strong>
-                        .replace(/\* (.*)/g, '<li>$1</li>')     // Convert * to li
-                        .replace(/- (.*)/g, '<li>$1</li>');     // Also convert - to li
+                        .replace(/### (.*)/g, '<h3>$1</h3>')
+                        .replace(/## (.*)/g, '<h2>$1</h2>')
+                        .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+                        .replace(/\* (.*)/g, '<li>$1</li>')
+                        .replace(/- (.*)/g, '<li>$1</li>');
 
-                    // Wrap list items if they exist and aren't already in a list
                     if (formattedContent.includes('<li>')) {
-                        // Basic logic to wrap lists. This might need more robust parsing for complex markdown.
-                        // For simplicity, we'll assume list items are grouped.
-                        const lines = formattedContent.split('<br>');
+                        const lines = formattedContent.split('\n');
                         let inList = false;
                         let outputLines = [];
                         for (const line of lines) {
-                            if (line.trim().startsWith('<li>')) {
+                            if (line.includes('<li>')) {
                                 if (!inList) {
                                     outputLines.push('<ul>');
                                     inList = true;
@@ -869,40 +1120,25 @@
                                     outputLines.push('</ul>');
                                     inList = false;
                                 }
-                                outputLines.push(line);
+                                if (line.trim()) outputLines.push(line);
                             }
                         }
-                        if (inList) { // Close any open list
-                            outputLines.push('</ul>');
-                        }
-                        formattedContent = outputLines.join('<br>');
+                        if (inList) outputLines.push('</ul>');
+                        formattedContent = outputLines.join('\n');
                     }
-                    formattedContent = formattedContent.replace(/<br>\s*<ul>/g, '<ul>').replace(/<\/ul>\s*<br>/g, '</ul>'); // Clean up extra breaks
 
-
-                    resultsDiv.innerHTML = `
-                        <h2>Analysis Results:</h2>
-                        ${formattedContent}
-                    `;
+                    resultsDiv.innerHTML = `<h2>📊 Analysis Results</h2>${formattedContent}`;
+                    resultsDiv.classList.add('show');
 
                 } catch (error) {
-                    console.error('Error during analysis:', error);
-                    resultsDiv.innerHTML = `<p style="color: red;">Error during analysis: ${error.message}. Please check console for details.</p>`;
+                    console.error('Error:', error);
+                    resultsDiv.innerHTML = `<p style="color: #ff6b6b;">Error: ${error.message}</p>`;
+                    resultsDiv.classList.add('show');
                 } finally {
                     loadingIndicator.style.display = 'none';
                 }
             }
-
-            function getLanguageName(code) {
-                const languages = {
-                    "en": "English", "es": "Spanish", "fr": "French", "de": "German",
-                    "it": "Italian", "pt": "Portuguese", "zh": "Chinese", "ja": "Japanese",
-                    "ko": "Korean", "hi": "Hindi"
-                };
-                return languages[code] || "English";
-            }
         });
     </script>
 </body>
-
 </html>
