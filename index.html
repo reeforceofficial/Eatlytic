@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Eatlytic - Your Intelligent Food Companion</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Playfair+Display:wght@700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
@@ -26,7 +29,8 @@
             --accent-orange: #ffa500;
         }
 
-        html, body {
+        html,
+        body {
             width: 100%;
             height: 100%;
             overflow-x: hidden;
@@ -41,7 +45,6 @@
             -moz-osx-font-smoothing: grayscale;
         }
 
-        /* Animated Background */
         .animated-background {
             position: fixed;
             top: 0;
@@ -56,9 +59,17 @@
         }
 
         @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
         }
 
         .blob {
@@ -99,10 +110,23 @@
         }
 
         @keyframes float {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            25% { transform: translate(30px, -50px) scale(1.1); }
-            50% { transform: translate(-30px, 30px) scale(0.9); }
-            75% { transform: translate(50px, 20px) scale(1.05); }
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            25% {
+                transform: translate(30px, -50px) scale(1.1);
+            }
+
+            50% {
+                transform: translate(-30px, 30px) scale(0.9);
+            }
+
+            75% {
+                transform: translate(50px, 20px) scale(1.05);
+            }
         }
 
         .container {
@@ -449,36 +473,73 @@
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         @keyframes slideInLeft {
-            from { opacity: 0; transform: translateX(-50px); }
-            to { opacity: 1; transform: translateX(0); }
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         @keyframes slideInRight {
-            from { opacity: 0; transform: translateX(50px); }
-            to { opacity: 1; transform: translateX(0); }
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         @keyframes slideInDown {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         @keyframes slideInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
-        /* Tablet (768px - 1024px) */
         @media (max-width: 1024px) {
             .container {
                 padding: 30px 20px;
@@ -493,321 +554,34 @@
                 font-size: 2.8rem;
             }
 
-            .hero-text p {
-                font-size: 1rem;
-            }
-
             .card {
                 padding: 30px;
             }
-
-            .button-group {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            #analyzeButton {
-                grid-column: 1 / -1;
-            }
         }
 
-        /* Small Tablet (600px - 768px) */
         @media (max-width: 768px) {
-            .container {
-                padding: 20px 15px;
-            }
-
-            .main-content {
-                gap: 40px;
-            }
-
             .hero-text h1 {
                 font-size: 2.2rem;
-            }
-
-            .hero-text p {
-                font-size: 0.95rem;
-            }
-
-            .emoji {
-                font-size: 2.5rem;
             }
 
             .card {
                 padding: 25px;
                 border-radius: 16px;
             }
-
-            .card-title {
-                font-size: 1.4rem;
-                margin-bottom: 20px;
-            }
-
-            .feature-item {
-                padding: 12px;
-                gap: 12px;
-            }
-
-            .feature-item i {
-                font-size: 1.2rem;
-            }
-
-            .feature-item span {
-                font-size: 0.9rem;
-            }
-
-            button {
-                padding: 12px 16px;
-                font-size: 0.9rem;
-                min-height: 42px;
-            }
-
-            .button-group {
-                gap: 8px;
-            }
-
-            #videoFeed {
-                max-height: 400px;
-            }
-
-            #imagePreview {
-                max-height: 280px;
-            }
-
-            .results-box {
-                padding: 18px;
-                max-height: 400px;
-            }
-
-            .results-box h2 {
-                font-size: 1.1rem;
-            }
-
-            .results-box h3 {
-                font-size: 1rem;
-            }
-
-            .blob1 { width: 300px; height: 300px; opacity: 0.1; }
-            .blob2 { width: 200px; height: 200px; opacity: 0.08; }
-            .blob3 { width: 250px; height: 250px; opacity: 0.08; }
         }
 
-        /* Mobile (480px - 600px) */
         @media (max-width: 600px) {
-            .container {
-                padding: 15px;
-                min-height: auto;
-            }
-
-            .main-content {
-                gap: 30px;
-            }
-
             .hero-text h1 {
                 font-size: 1.8rem;
-            }
-
-            .hero-text p {
-                font-size: 0.9rem;
-            }
-
-            .emoji {
-                font-size: 2rem;
-            }
-
-            .card {
-                padding: 20px;
-                border-radius: 14px;
-            }
-
-            .card-title {
-                font-size: 1.2rem;
-                margin-bottom: 18px;
-            }
-
-            .input-group {
-                gap: 10px;
-            }
-
-            .feature-list {
-                gap: 12px;
-            }
-
-            .feature-item {
-                padding: 10px;
-                gap: 10px;
-            }
-
-            .feature-item i {
-                font-size: 1.1rem;
-            }
-
-            .feature-item span {
-                font-size: 0.85rem;
-            }
-
-            button {
-                padding: 11px 14px;
-                font-size: 0.85rem;
-                min-height: 40px;
             }
 
             .button-group {
                 grid-template-columns: 1fr;
-                gap: 8px;
-            }
-
-            input[type="file"]::file-selector-button {
-                padding: 8px 14px;
-                font-size: 0.8rem;
-            }
-
-            #videoFeed {
-                max-height: 300px;
-                margin: 10px 0;
-            }
-
-            #imagePreview {
-                max-height: 250px;
-                margin: 10px 0;
-            }
-
-            #cameraControls {
-                gap: 6px;
-            }
-
-            #cameraControls button {
-                min-width: 100px;
-                font-size: 0.8rem;
-            }
-
-            .results-box {
-                padding: 15px;
-                max-height: 350px;
-                margin-top: 15px;
-                border-radius: 8px;
-            }
-
-            .results-box h2 {
-                font-size: 1rem;
-                margin-bottom: 12px;
-            }
-
-            .results-box h3 {
-                font-size: 0.9rem;
-                margin-top: 10px;
-                margin-bottom: 6px;
-            }
-
-            .results-box ul {
-                margin-left: 18px;
-            }
-
-            .results-box li {
-                font-size: 0.9rem;
-            }
-
-            #loadingIndicator {
-                font-size: 0.9rem;
-            }
-
-            .spinner {
-                width: 20px;
-                height: 20px;
-            }
-
-            .blob1 { width: 200px; height: 200px; opacity: 0.08; top: -50px; left: -50px; }
-            .blob2 { width: 150px; height: 150px; opacity: 0.06; bottom: -30px; right: -30px; }
-            .blob3 { width: 180px; height: 180px; opacity: 0.06; }
-        }
-
-        /* Small Mobile (under 480px) */
-        @media (max-width: 480px) {
-            .container {
-                padding: 12px;
-            }
-
-            .hero-text h1 {
-                font-size: 1.5rem;
-                margin-bottom: 12px;
-            }
-
-            .hero-text p {
-                font-size: 0.85rem;
-            }
-
-            .emoji {
-                font-size: 1.8rem;
-                margin-bottom: 10px;
-            }
-
-            .card {
-                padding: 18px;
-            }
-
-            .card-title {
-                font-size: 1.1rem;
-                margin-bottom: 15px;
-                gap: 8px;
-            }
-
-            .button-group {
-                gap: 6px;
-            }
-
-            button {
-                padding: 10px 12px;
-                font-size: 0.8rem;
-                min-height: 38px;
-                gap: 6px;
-            }
-
-            .feature-item {
-                padding: 8px;
-                gap: 8px;
-            }
-
-            input[type="file"],
-            select {
-                padding: 12px;
-                font-size: 0.9rem;
-            }
-
-            #videoFeed,
-            #imagePreview {
-                max-height: 200px;
-            }
-
-            .results-box {
-                padding: 12px;
-                max-height: 300px;
-                border-radius: 8px;
-                font-size: 0.85rem;
-            }
-
-            .results-box li {
-                font-size: 0.85rem;
-                margin-bottom: 4px;
-            }
-        }
-
-        /* Touch-friendly interactions */
-        @media (hover: none) and (pointer: coarse) {
-            button {
-                min-height: 48px;
-            }
-
-            .feature-item {
-                padding: 14px;
-            }
-
-            input[type="file"],
-            select {
-                padding: 16px;
-                font-size: 16px; /* Prevents zoom on iOS */
             }
         }
     </style>
 </head>
+
 <body>
     <div class="animated-background">
         <div class="blob blob1"></div>
@@ -817,7 +591,6 @@
 
     <div class="container">
         <div class="main-content">
-            <!-- Left Section -->
             <div class="left-section">
                 <div class="hero-text">
                     <div class="emoji">🥗</div>
@@ -845,7 +618,6 @@
                 </div>
             </div>
 
-            <!-- Right Section -->
             <div class="right-section">
                 <div class="card">
                     <div class="card-title">
@@ -856,86 +628,14 @@
                     <div class="input-group">
                         <input type="file" id="foodImageUpload" accept="image/*">
                         <select id="languageSelect">
-                            <!-- European Languages -->
                             <option value="en">🇬🇧 English</option>
                             <option value="es">🇪🇸 Español (Spanish)</option>
                             <option value="fr">🇫🇷 Français (French)</option>
                             <option value="de">🇩🇪 Deutsch (German)</option>
-                            <option value="it">🇮🇹 Italiano (Italian)</option>
-                            <option value="pt">🇵🇹 Português (Portuguese)</option>
-                            <option value="nl">🇳🇱 Nederlands (Dutch)</option>
-                            <option value="pl">🇵🇱 Polski (Polish)</option>
-                            <option value="ru">🇷🇺 Русский (Russian)</option>
-                            <option value="uk">🇺🇦 Українська (Ukrainian)</option>
-                            <option value="sv">🇸🇪 Svenska (Swedish)</option>
-                            <option value="no">🇳🇴 Norsk (Norwegian)</option>
-                            <option value="da">🇩🇰 Dansk (Danish)</option>
-                            <option value="fi">🇫🇮 Suomi (Finnish)</option>
-                            <option value="cs">🇨🇿 Čeština (Czech)</option>
-                            <option value="hu">🇭🇺 Magyar (Hungarian)</option>
-                            <option value="ro">🇷🇴 Română (Romanian)</option>
-                            <option value="el">🇬🇷 Ελληνικά (Greek)</option>
-                            <option value="tr">🇹🇷 Türkçe (Turkish)</option>
-                            
-                            <!-- Asian Languages -->
-                            <option value="zh">🇨🇳 中文 (Chinese - Simplified)</option>
-                            <option value="zh-TW">🇹🇼 繁體中文 (Chinese - Traditional)</option>
+                            <option value="hi">🇮🇳 हिंदी (Hindi)</option>
+                            <option value="zh">🇨🇳 中文 (Chinese)</option>
                             <option value="ja">🇯🇵 日本語 (Japanese)</option>
                             <option value="ko">🇰🇷 한국어 (Korean)</option>
-                            <option value="vi">🇻🇳 Tiếng Việt (Vietnamese)</option>
-                            <option value="th">🇹🇭 ไทย (Thai)</option>
-                            <option value="id">🇮🇩 Bahasa Indonesia (Indonesian)</option>
-                            <option value="ms">🇲🇾 Bahasa Melayu (Malay)</option>
-                            <option value="fil">🇵🇭 Filipino (Tagalog)</option>
-                            <option value="my">🇲🇲 မြန်မာ (Burmese)</option>
-                            <option value="km">🇰🇭 ខ្មែរ (Khmer)</option>
-                            <option value="lo">🇱🇦 ລາວ (Lao)</option>
-                            
-                            <!-- South Asian Languages -->
-                            <option value="hi">🇮🇳 हिंदी (Hindi)</option>
-                            <option value="bn">🇧🇩 বাংলা (Bengali)</option>
-                            <option value="pa">🇮🇳 ਪੰਜਾਬੀ (Punjabi)</option>
-                            <option value="ta">🇮🇳 தமிழ் (Tamil)</option>
-                            <option value="te">🇮🇳 తెలుగు (Telugu)</option>
-                            <option value="kn">🇮🇳 ಕನ್ನಡ (Kannada)</option>
-                            <option value="ml">🇮🇳 മലയാളം (Malayalam)</option>
-                            <option value="ur">🇵🇰 اردو (Urdu)</option>
-                            <option value="ne">🇳🇵 नेपाली (Nepali)</option>
-                            <option value="si">🇱🇰 සිංහල (Sinhala)</option>
-                            
-                            <!-- Middle Eastern & African Languages -->
-                            <option value="ar">🇸🇦 العربية (Arabic)</option>
-                            <option value="he">🇮🇱 עברית (Hebrew)</option>
-                            <option value="fa">🇮🇷 فارسی (Persian)</option>
-                            <option value="sw">🇰🇪 Kiswahili (Swahili)</option>
-                            <option value="am">🇪🇹 አማርኛ (Amharic)</option>
-                            <option value="zu">🇿🇦 isiZulu (Zulu)</option>
-                            <option value="xh">🇿🇦 isiXhosa (Xhosa)</option>
-                            <option value="af">🇿🇦 Afrikaans</option>
-                            <option value="ha">🇳🇬 Hausa</option>
-                            <option value="yo">🇳🇬 Yorùbá (Yoruba)</option>
-                            
-                            <!-- Americas Languages -->
-                            <option value="en-US">🇺🇸 English (US)</option>
-                            <option value="es-MX">🇲🇽 Español Mexicano (Mexican Spanish)</option>
-                            <option value="pt-BR">🇧🇷 Português Brasileiro (Brazilian Portuguese)</option>
-                            <option value="qu">🇵🇪 Quechua</option>
-                            <option value="ay">🇧🇴 Aymara</option>
-                            
-                            <!-- Other Languages -->
-                            <option value="ca">🇪🇸 Català (Catalan)</option>
-                            <option value="eu">🇪🇸 Euskera (Basque)</option>
-                            <option value="gl">🇪🇸 Galego (Galician)</option>
-                            <option value="sq">🇦🇱 Shqip (Albanian)</option>
-                            <option value="mk">🇲🇰 Македонски (Macedonian)</option>
-                            <option value="bg">🇧🇬 Български (Bulgarian)</option>
-                            <option value="sr">🇷🇸 Српски (Serbian)</option>
-                            <option value="hr">🇭🇷 Hrvatski (Croatian)</option>
-                            <option value="sl">🇸🇮 Slovenščina (Slovenian)</option>
-                            <option value="sk">🇸🇰 Slovenčina (Slovak)</option>
-                            <option value="lt">🇱🇹 Lietuvių (Lithuanian)</option>
-                            <option value="lv">🇱🇻 Latvietis (Latvian)</option>
-                            <option value="et">🇪🇪 Eesti (Estonian)</option>
                         </select>
                     </div>
 
@@ -970,7 +670,6 @@
             const loadingIndicator = document.getElementById('loadingIndicator');
             const resultsDiv = document.getElementById('results');
             const languageSelect = document.getElementById('languageSelect');
-
             const cameraButton = document.getElementById('cameraButton');
             const videoFeed = document.getElementById('videoFeed');
             const cameraControls = document.getElementById('cameraControls');
@@ -1080,23 +779,92 @@
                 const selectedLanguage = languageSelect.value;
 
                 try {
-                   const response = await fetch("https://eatlytic-1.onrender.com/api/analyze", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                            imageDataUrl: imageDataUrl,
-                            language: selectedLanguage
-                        })
-                    });
-
-                    if (!response.ok) {
-                        const errorData = await response.json();
-                        throw new Error(`API error: ${response.status} - ${errorData.error}`);
+                    // Validate image data before sending
+                    if (!imageDataUrl || !imageDataUrl.startsWith('data:image/')) {
+                        throw new Error('Invalid image format - must be a data URL');
                     }
 
-                    const data = await response.json();
-                    const analysisContent = data.analysis;
+                    const requestBody = {
+                        imageDataUrl: imageDataUrl,
+                        language: selectedLanguage
+                    };
 
+                    console.log('📤 Sending analysis request...');
+                    const apiBase = window.location.hostname === 'localhost' || window.location.hostname.match(/^\d+\.\d+\.\d+\.\d+$/)
+                        ? `${window.location.protocol}//${window.location.hostname}:5000`
+                        : 'https://eatlytic-production.up.railway.app';
+                    const response = await fetch(`${apiBase}/api/analyze`, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Accept": "application/json"
+                        },
+                        body: JSON.stringify(requestBody)
+                    });
+
+                    console.log(`📊 Response Status: ${response.status}`);
+
+                    // Try to parse response JSON
+                    let responseData = {};
+                    try {
+                        responseData = await response.json();
+                    } catch (e) {
+                        console.error('Failed to parse response as JSON');
+                        responseData = { error: 'Invalid server response' };
+                    }
+
+                    // Handle non-ok responses
+                    if (!response.ok) {
+                        let errorMessage = 'Unknown error';
+
+                        if (responseData.error) {
+                            errorMessage = responseData.error;
+                            // Append details if available
+                            if (responseData.details) {
+                                errorMessage += ` - ${responseData.details}`;
+                            }
+                        } else if (responseData.message) {
+                            errorMessage = responseData.message;
+                        }
+
+                        // Add status-specific guidance
+                        switch (response.status) {
+                            case 400:
+                                errorMessage += ' (Invalid request)';
+                                break;
+                            case 401:
+                                errorMessage += ' (Authentication failed)';
+                                break;
+                            case 429:
+                                errorMessage += ' (Too many requests - try again later)';
+                                break;
+                            case 500:
+                                errorMessage += ' (Server error - please try again)';
+                                break;
+                            case 502:
+                                errorMessage += ' (API service error - try again)';
+                                break;
+                            case 503:
+                                errorMessage += ' (Service temporarily unavailable)';
+                                break;
+                            case 504:
+                                errorMessage += ' (Request timeout - try shorter image)';
+                                break;
+                        }
+
+                        throw new Error(`API error: ${response.status} - ${errorMessage}`);
+                    }
+
+                    // Check if response indicates success
+                    if (!responseData.success || !responseData.analysis) {
+                        const errorMsg = responseData.error || 'Empty response from server';
+                        throw new Error(`Server returned: ${errorMsg}`);
+                    }
+
+                    const analysisContent = responseData.analysis;
+                    console.log('✅ Analysis received');
+
+                    // Format markdown to HTML
                     let formattedContent = analysisContent
                         .replace(/### (.*)/g, '<h3>$1</h3>')
                         .replace(/## (.*)/g, '<h2>$1</h2>')
@@ -1104,6 +872,7 @@
                         .replace(/\* (.*)/g, '<li>$1</li>')
                         .replace(/- (.*)/g, '<li>$1</li>');
 
+                    // Wrap list items in <ul> tags
                     if (formattedContent.includes('<li>')) {
                         const lines = formattedContent.split('\n');
                         let inList = false;
@@ -1131,14 +900,31 @@
                     resultsDiv.classList.add('show');
 
                 } catch (error) {
-                    console.error('Error:', error);
-                    resultsDiv.innerHTML = `<p style="color: #ff6b6b;">Error: ${error.message}</p>`;
+                    console.error('❌ Analysis Error:', error);
+                    const errorMessage = error.message || 'Unknown error occurred';
+                    resultsDiv.innerHTML = `<div style="color: #ff6b6b; padding: 16px; background: #ffe6e6; border-radius: 8px;">
+                        <strong>❌ Error:</strong> ${escapeHtml(errorMessage)}
+                        <br><small style="margin-top: 8px; display: block; color: #cc0000;">Please check your network connection and try again.</small>
+                    </div>`;
                     resultsDiv.classList.add('show');
                 } finally {
                     loadingIndicator.style.display = 'none';
                 }
             }
+
+            // Helper function to escape HTML special characters
+            function escapeHtml(text) {
+                const map = {
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '"': '&quot;',
+                    "'": '&#039;'
+                };
+                return text.replace(/[&<>"']/g, m => map[m]);
+            }
         });
     </script>
 </body>
+
 </html>
